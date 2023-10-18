@@ -5,7 +5,7 @@ export default function MainHeader () {
                 <h1 className="h-32">main header</h1>
                 <nav className="flex justify-around">
                     <a href="/">Home</a>
-                    <a href="">About Me</a>
+                    <a href="/about">About</a>
                     <a href="">Link</a>
                     <a href="">Link</a>
                     <a href="">Link</a>
