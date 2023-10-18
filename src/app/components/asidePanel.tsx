@@ -5,9 +5,11 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons'
 export default function AsidePanel() {
     return (
         <>
-            <div className="border-r border-b border-black border-solid p-2 h-full w-[500px]">
-                <Image className="bg-black m-3" alt='test image not found' src="" width={100} height={100}></Image>
-                <h1>test header for image</h1>
+            <div className="border-r border-b border-black border-solid p-2 h-full w-[2000px] flex flex-col">
+                <div className='flex flex-col justify-center'>
+                    <Image className="bg-black m-3" alt='test image not found' src="" width={100} height={100}></Image>
+                    <h1 className='text-center'>test header for image</h1>
+                </div>
                 <hr />
                 <span>
                 </span>
