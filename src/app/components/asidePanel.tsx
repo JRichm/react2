@@ -6,7 +6,7 @@ export default function AsidePanel() {
     return (
         <>
             <div className="border-r border-b border-black border-solid p-2 h-full">
-                <Image className="bg-black" alt='test image not found' src="" width={200} height={200}></Image>
+                <Image className="bg-black m-3" alt='test image not found' src="" width={150} height={150}></Image>
                 <h1>test header for image</h1>
                 <hr />
                 <span>

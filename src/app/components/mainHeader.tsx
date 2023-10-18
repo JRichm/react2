@@ -8,7 +8,7 @@ export default function MainHeader () {
                     <a href="/about">About</a>
                     <a href="">Link</a>
                     <a href="">Link</a>
-                    <a href="">Link</a>
+                    <a href="/new">new</a>
                     <a href="/login">Login</a>
                 </nav>
             </div>
