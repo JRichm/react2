@@ -1,5 +1,7 @@
 import Image from 'next/image'
-import BlogPost from './blogPost'
+
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesome } from '@fortawesome/react-fontawesome'
 
 export default function AsidePanel() {
     return (
@@ -8,6 +10,9 @@ export default function AsidePanel() {
                 <Image className="bg-black" alt='test image not found' src="" width={200} height={200}></Image>
                 <h1>test header for image</h1>
                 <hr />
+                <span>
+                    <FontAwesomeIcon icon="fa-brands fa-github"></FontAwesomeIcon>
+                </span>
             </div>
         </>
     )
