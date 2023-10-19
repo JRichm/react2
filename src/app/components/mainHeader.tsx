@@ -6,8 +6,8 @@ export default function MainHeader () {
                 <nav className="flex justify-around">
                     <a href="/">home</a>
                     <a href="/about">about</a>
-                    <a href="">link</a>
-                    <a href="">link</a>
+                    <a href="" className="text-gray-300">link</a>
+                    <a href="" className="text-gray-300">link</a>
                     <a href="/new">new</a>
                     <a href="/login">login</a>
                 </nav>
