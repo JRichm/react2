@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 const config = require('../../../config.json');
 const client_id = config.CLIENT_ID;
@@ -19,7 +19,9 @@ interface SpotifyApiResponse {
 export default function AsidePanel() {
 
     const [displayedSong, setDisplayedSong] = useState<SpotifyApiResponse | undefined>();
-    const [apiToken, setApiToken] = useState("");
+    const [apiToken, setApiToken] = useState<string | undefined>();
+
+    const router = useRouter();
 
     // use effect
         // get api token
@@ -27,31 +29,43 @@ export default function AsidePanel() {
         // get displayed song
 
     useEffect(() => {
-        (async () => {
-            // get token for app
-            if (apiToken == "") {
-                const token = await get_token()
-            }
-            console.log('(*) Token:', apiToken)
+        const fetchData = async () => {
 
-            // check for errors or missing access token
-            if (!apiToken || apiToken == "") {
-                console.error('(!) Error getting access token:', apiToken)
+            // get token for app only if its not already set
+            if (!apiToken) {
+                const token = await get_token();
+                setApiToken(token);
+            }
+
+            if (!apiToken) {
+                console.error('(!) Error getting access token:', apiToken);
                 return;
             }
+            console.log('(*) Token:', apiToken);
 
-            // Authorize token (no need to pass token as its available in scope)
-            await authorizeApp();
-
-            // Get displayed song
-            const song = await GetMostRecentSong();
-            console.log('(*) Song:', song);
-        })()
-    }); 
+            const url = new URL(window.location.href);
+            const codeValue = url.searchParams.get('code');
+                    
+            // Authorize token
+            if (codeValue !== null) {
+                console.log('(*) Value of code param:', codeValue);
+            
+                await authorizeApp();
+    
+                // Get displayed song
+                const song = await GetMostRecentSong();
+                console.log('(*) Song:', song);
+            } else {
+                console.log('(>) code param not found in url, authorizing')
+            }
+        }
+        fetchData();
+    }, [apiToken]);
 
     async function GetMostRecentSong() {
+        console.log('getting most recent song')
         try {
-            console.log('Getting Most Recent Song...')
+            console.log('(>) Getting Most Recent Song...')
     
             if (!apiToken || apiToken == "") {
                 console.error('(!)Error getting access token:', apiToken)
@@ -59,12 +73,11 @@ export default function AsidePanel() {
             }
     
             console.log('(✓) valid token')
-            const accessToken = apiToken;
         
             const apiResponse = await fetch('https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=1', {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`
+                    'Authorization': `Bearer ${apiToken}`
                 },
             });
         
@@ -86,11 +99,10 @@ export default function AsidePanel() {
     }
 
     async function get_token() {
+
+        // concat authString and convert to base64
         const authString = client_id + ":" + client_secret;
         const authBase64 = Buffer.from(authString, "utf-8").toString("base64");
-    
-        const requestData = new URLSearchParams();
-        requestData.append('grant_type', 'client_credentials');
     
         const token = await fetch('https://accounts.spotify.com/api/token', {
             method: 'POST',
@@ -101,14 +113,12 @@ export default function AsidePanel() {
             body: 'grant_type=client_credentials&client_id=' + client_id + '&client_secret=' + client_secret
         }).then(res => res.json())
         .then(async(data) => {
-            const authorized = await authorizeApp()
-            return data
+            return data.access_token;
         })
         .catch(err => {
-            console.error('Error fetching token:', token.error.message);
+            console.error('(!) Error fetching token:', token.error.message);
         })
-        setApiToken(token.access_token);
-        return token.access_token;
+        return token;
     }
 
     async function authorizeApp() {
@@ -121,8 +131,8 @@ export default function AsidePanel() {
         const authorizationURL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${client_id}&scope=${SCOPE}&state=${state}&redirect_uri=${REDIRECT_URI}`;
 
         try {
-            console.log('Authorizing App...')
-            window.open(authorizationURL, '_blank');
+            console.log('(>) Authorizing App...');
+            router.push(authorizationURL);
         } catch (err) {
             console.error('(!) Error authorizing app:', err);
         }
