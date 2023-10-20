@@ -1,0 +1,16 @@
+users:
+    email
+    username
+    passwordHash
+    userCreated
+    userUpdated
+    
+
+
+posts:
+    title
+    textData
+    images
+    postDate
+    postCreated
+    postUpdated
