@@ -56,7 +56,7 @@ export default function AsidePanel() {
             }
         }
         setToken();
-    }, [displayedSong]);
+    }, []);
 
     useEffect(() => {
         async function fetchData() {
@@ -64,12 +64,14 @@ export default function AsidePanel() {
                 // Get displayed song
                 const song = await GetMostRecentSong();
                 console.log('(*) Song:', song);
+                setDisplayedSong(song)
             }
         }
         fetchData();
     }, [apiToken])
 
     async function GetMostRecentSong() {
+
         console.log('(>) Getting Most Recent Song...')
         console.log(apiToken)
     
@@ -79,8 +81,12 @@ export default function AsidePanel() {
             console.log('(✓) valid token')
         }
 
-        const apiResponse = await fetch(`https://api.spotify.com/v1/playlists/1okbgtASYcBbmjfaGA1jps&access_token=${apiToken}`, {
+        // const apiResponse = await fetch(`https://api.spotify.com/v1/playlists/1okbgtASYcBbmjfaGA1jps/tracks?limit=1`, {
+        const apiResponse = await fetch(`https://api.spotify.com/v1/users/8rpo2o2l29kvna1ekmxcjk4cm/top/tracks?limit=1`, {
             method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${apiToken}`
+            }
         })
 
         if (!apiResponse.ok) {
@@ -106,7 +112,7 @@ export default function AsidePanel() {
         console.log('data');
         console.log(data);
     
-        const mostRecentSong = data.items[0];
+        const mostRecentSong = data.items[0].track;
         return mostRecentSong;
     }
 
