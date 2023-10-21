@@ -2,6 +2,9 @@
 const nextConfig = {
     images: {
         domains: ['i.scdn.co']
+    },
+    experimental: {
+        serverActions: true,
     }
 }
 

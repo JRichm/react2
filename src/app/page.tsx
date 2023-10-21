@@ -20,7 +20,7 @@ export default function Home() {
         <div className='w-[900px]'>
           <MainHeader />
           <div className='flex flex-row justify-center'>
-            <div>
+            <div className='bg-gray-300/40'>
               {blogPosts}
             </div>
             <AsidePanel />
