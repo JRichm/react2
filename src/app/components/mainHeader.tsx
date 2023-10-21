@@ -18,9 +18,9 @@ export default function MainHeader () {
         tabLink: string
     }
 
-    function Tab({tabLink}: TabProps) {
+    function Tab({tabLink}: TabProps) {0
 
-        const tabStyle = `bg-white w-[85px] py-1 text-center mr-1`
+        const tabStyle = `bg-white w-[80px] py-1 text-center mr-1`
 
         if (tabLink == "") {
             return <a href={`/${tabLink}`} className={tabStyle}>home</a>
