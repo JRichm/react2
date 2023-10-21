@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className='h-full'>
       <body className={finalClass}>
-        <div className='bg-minecraftImage0 bg-fixed h-full'>
+        <div className='bg-green-900 bg-fixed h-full flex justify-center'>
             {children}
         </div>
       </body>
