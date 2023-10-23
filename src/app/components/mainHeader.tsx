@@ -5,12 +5,12 @@ import { usePathname } from 'next/navigation'
 
 export default function MainHeader () {
     function Nav() {
-        const currentEnpoint = usePathname();
+        const currentEndpoint = usePathname();
         const links = ['/', '/about', '/new', '/login'];
-        var tabElements = new Array();
+        let tabElements = new Array();
 
         links.forEach(tabLink => {
-            if (tabLink == currentEnpoint) {
+            if (tabLink == currentEndpoint) {
                 const newTab = (<Tab tabLink={tabLink} selected={true}/>)
                 tabElements.push(newTab)
             } else {
@@ -22,7 +22,9 @@ export default function MainHeader () {
         return (
             <>
                 <span>
-                    {tabElements}
+                    {links.map((tabLink) => (
+                        <Tab key={tabLink} tabLink={tabLink} selected={tabLink === currentEndpoint} />
+                    ))}
                 </span>
             </>
         )
@@ -34,17 +36,11 @@ export default function MainHeader () {
     }
 
     function Tab({tabLink, selected}: TabProps) {
-        var labelName = tabLink;
-        if (tabLink == "/") {
-            labelName = '/home'
-        }
-
-        var tabStyle = `py-2 px-4 text-l text-center mr-1 ${selected ? 'bg-white rounded-t-md' : 'bg-gray-400 rounded-t-xl'} hover:rounded-t-sm hover:bg-gray-200 transition-all`
+        const labelName = tabLink === "/" ? '/home' : tabLink;
+        const tabStyle = `py-2 px-4 text-l text-center mr-1 ${selected ? 'bg-white rounded-t-md' : 'bg-gray-400 rounded-t-xl'} hover:rounded-t-sm hover:bg-gray-200 transition-all`;
 
         return(
-            <>
-                <a href={tabLink} className={tabStyle}>{labelName.split('/') }</a>
-            </>
+            <a href={tabLink} className={tabStyle}>{labelName.split('/') }</a>
         )
     }
 
