@@ -50,7 +50,7 @@ export default function MainHeader () {
 
     return (
         <>
-            <div className="mt-[100px] my-1.5">
+            <div className="pt-[80px] pb-3 fixed bg-green-900 w-[1050px] border-b-2 border-black/25">
                 <Nav />
             </div>
         </>

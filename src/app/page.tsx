@@ -19,11 +19,13 @@ export default function Home() {
     <>
       <div className="flex flex-col w-[1050px]">
         <MainHeader />
-        <main className='flex flex-row mr-5 bg-gray-200/20'>
-          <div className='bg-gray-200/30 mr-4'>
+        <main className='flex flex-row bg-black/20 mt-28'>
+          <div>
             {blogPosts}
           </div>
-          <RightPanel />
+          <div>
+            <RightPanel />
+          </div>
         </main>
       </div>
     </>

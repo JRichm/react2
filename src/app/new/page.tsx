@@ -36,8 +36,8 @@ export default async function NewPostPage() {
       <div className={`flex flex-row w-full justify-center`}>
         <div className='w-[1050px]'>
           <MainHeader />
-          <div className='flex flex-row justify-center border border-solid border-black border-t-0 h-full bg-gray-300/80 gap-1 p-5'>
-            <form className="flex flex-col gap-3 w-full p-3 h-fit rounded-3xl bg-white">
+          <div className='flex flex-row justify-center gap-1 p-5 mt-28'>
+            <form className="flex flex-col gap-3 w-[800px] p-3 h-fit rounded-3xl bg-white">
               <input type="text" placeholder="title" className="p-3 text-2xl tracking-wider bg-gray-200/50 rounded-xl outline-none"></input>
               <textarea className="h-[200px] max-h-[600px] p-4 bg-gray-200/50 rounded-2xl outline-none" placeholder="text"></textarea>
               <span className="flex flex-row justify-end gap-2 align-center">
