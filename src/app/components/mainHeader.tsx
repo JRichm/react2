@@ -1,14 +1,28 @@
+'use client'
+
+import { TabsProps } from '@nextui-org/react';
+import { usePathname } from 'next/navigation'
+
 export default function MainHeader () {
+    function Nav() {
+        const currentEnpoint = usePathname();
+        const links = ['/', '/about', '/new', '/login'];
+        var tabElements = new Array();
 
-    function NavBar() {
-        const links = ['', 'about', 'new', 'login']
-
+        links.forEach(tabLink => {
+            if (tabLink == currentEnpoint) {
+                const newTab = (<Tab tabLink={tabLink} selected={true}/>)
+                tabElements.push(newTab)
+            } else {
+                const newTab = (<Tab tabLink={tabLink} selected={false}/>)
+                tabElements.push(newTab)
+            }
+        })
+        
         return (
             <>
-                <span className="flex flex-row h-fit w-full roun">
-                    {links.map(tabLink => (
-                        <Tab tabLink={tabLink} />
-                    ))}
+                <span>
+                    {tabElements}
                 </span>
             </>
         )
@@ -16,34 +30,28 @@ export default function MainHeader () {
 
     type TabProps = {
         tabLink: string
+        selected: boolean
     }
 
-    function Tab({tabLink}: TabProps) {0
-
-        const tabStyle = `bg-white w-[80px] py-1 text-center mr-1`
-
-        if (tabLink == "") {
-            return <a href={`/${tabLink}`} className={tabStyle}>home</a>
-        } else {
-            return <a href={`/${tabLink}`} className={tabStyle}>{tabLink}</a>
+    function Tab({tabLink, selected}: TabProps) {
+        var labelName = tabLink;
+        if (tabLink == "/") {
+            labelName = '/home'
         }
 
+        var tabStyle = `py-2 px-4 text-l text-center mr-1 ${selected ? 'bg-white rounded-t-md' : 'bg-gray-400 rounded-t-xl'} hover:rounded-t-sm hover:bg-gray-200 transition-all`
+
+        return(
+            <>
+                <a href={tabLink} className={tabStyle}>{labelName.split('/') }</a>
+            </>
+        )
     }
 
     return (
         <>
-            <div className="h-fit mt-[100px]">
-                <NavBar />
-
-                {/* <nav className="flex justify-around">
-                    <a href="/">home</a>
-                    <a href="/about">about</a>
-                    <a href="" className="text-gray-300">link</a>
-                    <a href="" className="text-gray-300">link</a>
-                    <a href="/new">new</a>
-                    <a href="/login">login</a>
-                </nav> */}
-
+            <div className="mt-[100px] my-1.5">
+                <Nav />
             </div>
         </>
     )

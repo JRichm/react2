@@ -34,7 +34,7 @@ export default async function NewPostPage() {
   return (
     <>
       <div className={`flex flex-row w-full justify-center`}>
-        <div className='w-[900px]'>
+        <div className='w-[1050px]'>
           <MainHeader />
           <div className='flex flex-row justify-center border border-solid border-black border-t-0 h-full bg-gray-300/80 gap-1 p-5'>
             <form className="flex flex-col gap-3 w-full p-3 h-fit rounded-3xl bg-white">
