@@ -6,7 +6,7 @@ import MainHeader from "../components/mainHeader"
 
 export default function NewPostPage() {
 
-  const currentDate = new Date(Date.now());
+  const currentDate = new Date(Date.now()).toISOString();
 
   const [formData, setFormData] = useState({title: '', text: '', date: `${currentDate}`})
 
@@ -16,7 +16,7 @@ export default function NewPostPage() {
     if (e.target.name === "reset") {
       setFormData({
         ...formData,
-        date: `${currentDate.toISOString()}`
+        date: `${currentDate}`
       })
       return;
     } else if (e.target.name === "date") {
