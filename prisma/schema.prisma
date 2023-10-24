@@ -26,4 +26,5 @@ model blogPost {
   postDate        DateTime
   postCreated     DateTime    @default(now())
   postUpdated     DateTime    @default(now())
+  postVisible     Boolean     @default(true)
 }

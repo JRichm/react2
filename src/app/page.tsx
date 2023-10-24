@@ -10,6 +10,9 @@ async function getBlogPosts() {
   const blogPosts = await prisma.blogPost.findMany({
     orderBy: {
       postDate: 'desc'
+    },
+    where: {
+      postVisible: true
     }
   })
 
