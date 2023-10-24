@@ -1,8 +1,11 @@
 interface blogPostDataProps {
     postData: {
+        id: string,
         title: string,
         textData: string,
-        postDate: string
+        postDate : ate,
+        postCreated: Date,
+        postUpdated : Date
     }
 }
 

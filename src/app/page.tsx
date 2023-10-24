@@ -3,6 +3,7 @@ import AsidePanel from './components/asidePanel'
 import RightPanel from './components/rightPanel'
 import BlogPost from './components/blogPost'
 import MainHeader from './components/mainHeader'
+import NavHeader from './components/navHeader'
 import { prisma } from "@/db"
 
 async function getBlogPosts() {
@@ -28,9 +29,10 @@ export default async function Home() {
   return (
     <>
       <div className="flex flex-col w-[1050px]">
-        <MainHeader />
-        <main className='flex flex-row bg-black/20 mt-28'>
+        {/* <MainHeader /> */}
+        <main className='flex flex-row bg-black/20'>
           <div>
+            <NavHeader />
             {postsElements}
           </div>
           <div>

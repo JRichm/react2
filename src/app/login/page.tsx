@@ -1,4 +1,5 @@
 "use client"
+import "./style.css";
 import React, { useState, useEffect } from 'react';
 
 export default function LoginPage() {
@@ -19,7 +20,7 @@ export default function LoginPage() {
 
     return (
         <div className="w-full h-full flex justify-center mt-24">
-            <form className="bg-gray-200 p-2 w-[400px] h-fit flex flex-col align-end gap-0 ">
+            <form className="bg-gray-200 p-2 w-[400px] h-fit flex flex-col align-end gap-0 rounded-md">
                 {menu}
             </form>
         </div>
