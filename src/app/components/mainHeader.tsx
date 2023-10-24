@@ -37,7 +37,7 @@ export default function MainHeader () {
 
     function Tab({tabLink, selected}: TabProps) {
         const labelName = tabLink === "/" ? '/home' : tabLink;
-        const tabStyle = `py-2 px-4 text-l text-center mr-1 ${selected ? 'bg-white rounded-t-md' : 'bg-gray-400 rounded-t-xl'} hover:rounded-t-sm hover:bg-gray-200 transition-all`;
+        const tabStyle = `py-2 px-4 text-l text-center mr-1 ${selected ? 'bg-white rounded-t-md' : 'bg-white/20 rounded-t-xl'} hover:rounded-t-sm hover:bg-gray-200 transition-all`;
 
         return(
             <a href={tabLink} className={tabStyle}>{labelName.split('/') }</a>
