@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import MainHeader from "../components/mainHeader"
 import NavHeader from '@/components/navHeader';
 import RightPanel from '@/components/rightPanel';
+import SendMeMessage from '@/components/sendMessage';
 
 export default function NewPostPage() {
 
@@ -74,7 +75,8 @@ export default function NewPostPage() {
                 </form>
               </div>
             </div>
-            <div>
+            <div className='flex flex-col mt-[107px] gap-3'>
+              <SendMeMessage />
               <RightPanel />
             </div>
           </div>

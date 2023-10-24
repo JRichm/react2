@@ -5,6 +5,7 @@ import BlogPost from './components/blogPost'
 import MainHeader from './components/mainHeader'
 import NavHeader from './components/navHeader'
 import { prisma } from "@/db"
+import SendMeMessage from './components/sendMessage'
 
 async function getBlogPosts() {
   const blogPosts = await prisma.blogPost.findMany({
@@ -38,7 +39,8 @@ export default async function Home() {
             <NavHeader />
             {postsElements}
           </div>
-          <div>
+          <div className='mt-[107px] flex flex-col gap-3 justify-top'>
+            <SendMeMessage />
             <RightPanel />
           </div>
         </main>

@@ -35,7 +35,6 @@ export default function BlogPost({postData}: blogPostDataProps) {
                 <h1 className="text-2xl m-3" key="title">{postData.title}</h1>
                 <p className="text-sm" key="text" >{postData.textData}</p>
                 <span className="flex flex-row justify-between">
-                    <p>{(postData.postVisible)}</p>
                     <p className="text-end m-3 text-gray-500" key="date">{new Date(postData.postDate).toDateString()}</p>
                 </span>
             </div>
