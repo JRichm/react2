@@ -1,6 +1,9 @@
+"use client"
+
 import NavHeader from "@/components/navHeader";
 import RightPanel from "@/components/rightPanel";
 import test from "node:test";
+import { useState } from "react";
 
 
 interface storeItemType {
@@ -21,8 +24,9 @@ let testItems: storeItemType[] = [
     {itemId: 8, itemName: 'noodles', itemCost: 14203},
 ]
 
-
 export default function GamePage() {
+
+    const [gameBoardString, setGameBoardString] = useState()
 
     function Store(props: {storeItems: Array<storeItemType>}) {
 
@@ -42,8 +46,35 @@ export default function GamePage() {
     }
     
     function GameBoard() {
-        return (
+        const letterRows = [
+            [".", ".", ".", ".", ".", ".", ".", ".", "."],
+            [".", ".", ".", ".", ".", ".", ".", ".", "."],
+            [".", ".", ".", ".", ".", ".", ".", ".", "."],
+            [".", ".", ".", ".", ".", ".", ".", ".", "."],
+            [".", ".", ".", ".", ".", ".", ".", ".", "."],
+            [".", ".", ".", ".", ".", ".", ".", ".", "."],
+            [".", ".", ".", ".", ".", ".", ".", ".", "."],
+            [".", ".", ".", ".", ".", ".", ".", ".", "."],
+            [".", ".", ".", ".", ".", ".", ".", ".", "."],
+        ]
+
+        const letters = (
             <div>
+                {letterRows.map((row, rowIndex) => (
+                    <span key={rowIndex}>
+                        {row.map((char, charIndex) => (
+                            <p key={charIndex}>{char}</p>
+                        ))}
+                    </span>
+                ))}
+            </div>
+        )
+        
+
+        return (
+            <div className="w-full bg-gray-200 mr-2 mb-2">
+                <div className="bg-black w-[500px] h-[500px]">
+                </div>
             </div>
         )
     }
