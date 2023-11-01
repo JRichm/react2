@@ -11,20 +11,30 @@ datasource db {
 }
 
 model users {
-  id              String      @id @default(uuid())
-  username        String
-  email           String      
-  passwordHash    String
-  userCreated     DateTime    @default(now())
-  userUpdated     DateTime    @default(now())
+  id                    String          @id @default(uuid())
+  username              String
+  email                 String      
+  passwordHash          String
+  userCreated           DateTime        @default(now())
+  userUpdated           DateTime        @default(now())
+  userSaves             userSave[]  
 }
 
 model blogPost {
-  id              String      @id @default(uuid())
-  title           String
-  textData        String
-  postDate        DateTime
-  postCreated     DateTime    @default(now())
-  postUpdated     DateTime    @default(now())
-  postVisible     Boolean     @default(true)
+  id                    String          @id @default(uuid())
+  title                 String
+  textData              String
+  postDate              DateTime
+  postCreated           DateTime        @default(now())
+  postUpdated           DateTime        @default(now())
+  postVisible           Boolean         @default(true)
+}
+
+model userSave {
+  saveId                String          @id @default(uuid())
+  saveUser              users           @relation(fields: [saveId], references: [id])
+  saveString            String
+  saveLeaves            Int
+  saveUpdatd            DateTime        @default(now())
+  saveCreated           DateTime        @default(now())
 }

@@ -1,0 +1,9 @@
+-- CreateTable
+CREATE TABLE "userSave" (
+    "saveId" TEXT NOT NULL PRIMARY KEY,
+    "saveString" TEXT NOT NULL,
+    "saveLeaves" INTEGER NOT NULL,
+    "saveUpdatd" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "saveCreated" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "userSave_saveId_fkey" FOREIGN KEY ("saveId") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);

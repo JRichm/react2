@@ -2,7 +2,7 @@
 
 import NavHeader from "@/components/navHeader";
 import RightPanel from "@/components/rightPanel";
-import test from "node:test";
+import { prisma } from "@/db";
 import { useState } from "react";
 
 
@@ -10,6 +10,16 @@ interface storeItemType {
     itemId: number,
     itemName: string,
     itemCost: number,
+}
+
+interface gameSaveType {
+    saveId: string,
+    saveUserId: string,
+    saveString: string,
+    saveLeaves: number,
+    saveLeavesPerSecond: number,
+    saveUpdated: Date,
+    saveCreated: Date,
 }
 
 let testItems: storeItemType[] = [
@@ -24,22 +34,51 @@ let testItems: storeItemType[] = [
     {itemId: 8, itemName: 'noodles', itemCost: 14203},
 ]
 
+interface userType {
+    id: string,
+    username: string,
+}
+
+
+async function getUserSave(user: userType) {
+    const userSave = await prisma.userSave.findFirst({
+        where: {
+            saveUser: {
+                id: user.id
+            }
+        }
+    })
+  
+    const postElements = new Array()
+  
+    blogPosts.forEach(post => {
+      postElements.push(<BlogPost postData={post} />)
+    })
+  
+    return postElements
+}
+
 export default function GamePage() {
 
-    const [gameBoardString, setGameBoardString] = useState()
+    const [gameSave, setGameSave] = useState(getUserSave())
+
 
     function Store(props: {storeItems: Array<storeItemType>}) {
 
         const elements = props.storeItems.map(storeItem => (
-            <div className="flex flex-row justify-between" key={storeItem.itemId}>
-                <p className="bg-red-200 w-12 text-center">{storeItem.itemId}</p>
-                <p className="bg-blue-200 w-full text-left px-2">{storeItem.itemName}</p>
-                <p className="bg-green-200 w-32 text-right px-3">{storeItem.itemCost}</p>
+            <div className="flex flex-row justify-between bg-gray-100 p-2 hover:bg-gray-200 rounded" key={storeItem.itemId}>
+                <div className="bg-black mr-2">
+                    <img className="min-w-[35px] h-[35px]" src=""></img>
+                </div>
+                <hr className="border-r border-solid h-full border-slate-500/25 border-2" />
+                <p className="w-full text-left px-2 self-center text-xl font-sans">{storeItem.itemName}</p>
+                <p className="w-full text-right px-2 self-center">$</p>
+                <p className="w-[250px] text-right px-3 self-center">{storeItem.itemCost}</p>
             </div>
         ))
 
         return (
-            <div className="flex flex-col gap-1 hover:cursor-pointer m-2 w-full">
+            <div className="flex flex-col gap-1 hover:cursor-pointer m-2 mt-1 w-full">
                 {elements}
             </div>
         )
@@ -47,23 +86,23 @@ export default function GamePage() {
     
     function GameBoard() {
         const letterRows = [
-            [".", ".", ".", ".", ".", ".", ".", ".", "."],
-            [".", ".", ".", ".", ".", ".", ".", ".", "."],
-            [".", ".", ".", ".", ".", ".", ".", ".", "."],
-            [".", ".", ".", ".", ".", ".", ".", ".", "."],
-            [".", ".", ".", ".", ".", ".", ".", ".", "."],
-            [".", ".", ".", ".", ".", ".", ".", ".", "."],
-            [".", ".", ".", ".", ".", ".", ".", ".", "."],
-            [".", ".", ".", ".", ".", ".", ".", ".", "."],
-            [".", ".", ".", ".", ".", ".", ".", ".", "."],
+            ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "A", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
         ]
 
         const letters = (
-            <div>
+            <div className="flex flex-col gap-1">
                 {letterRows.map((row, rowIndex) => (
-                    <span key={rowIndex}>
+                    <span key={rowIndex} className="flex flex-row gap-1">
                         {row.map((char, charIndex) => (
-                            <p key={charIndex}>{char}</p>
+                            <p key={charIndex} className="text-white text-2xl text-center h-12 w-12 pt-3 flex justify-center bg-purple-900/5 hover:bg-gray-900 hover:cursor-pointer rounded">{char}</p>
                         ))}
                     </span>
                 ))}
@@ -72,8 +111,9 @@ export default function GamePage() {
         
 
         return (
-            <div className="w-full bg-gray-200 mr-2 mb-2">
-                <div className="bg-black w-[500px] h-[500px]">
+            <div className="bg-black mr-2 mb-2 rounded h-fit">
+                <div className="bg-blue-900/5 rounded p-1">
+                    {letters}
                 </div>
             </div>
         )
