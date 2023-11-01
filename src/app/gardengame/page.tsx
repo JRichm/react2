@@ -48,14 +48,18 @@ async function getUserSave(user: userType) {
             }
         }
     })
-  
-    const postElements = new Array()
-  
-    blogPosts.forEach(post => {
-      postElements.push(<BlogPost postData={post} />)
-    })
-  
-    return postElements
+
+    if (userSave) {
+        // userSave data is available
+    } else {
+        // userSave data is not found for the given user
+    }
+
+    // close the prisma client connection when done
+    await prisma.$disconnect();
+
+    return userSave;
+
 }
 
 export default function GamePage() {

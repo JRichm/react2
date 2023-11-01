@@ -6,6 +6,13 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 export const options: NextAuthOptions = {
     providers: [
         GitHubProvider({
+            clientId: process.env.GITHUB_ID as string,
+            clientSecret: process.env.GITHUB_SECRET as string,
+        }),
+
+        GoogleProvider({
+            clientId: process.env.GITHUB_ID as string,
+            clientSecret: process.env.GITHUB_SECRET as string,
         }),
 
         CredentialsProvider({
@@ -27,6 +34,8 @@ export const options: NextAuthOptions = {
                 // You can also use the `req` object to obtain additional parameters
                 // (i.e., the request IP address)
 
+                console.log('authorizing')
+
                 // const res = await fetch("/your/endpoint", {
                 //     method: "POST",
                 //     body: JSON.stringify(credentials),
@@ -45,12 +54,12 @@ export const options: NextAuthOptions = {
             }
         })
     ],
-    pages: {
-        signIn: '/auth/signin',
-        signOut: '/auth/signout',
-        error: '/auth/error',
-        verifyRequest: '/auth/verify-request',
-    }
+    // pages: {
+    //     signIn: '/auth/signin',
+    //     signOut: '/auth/signout',
+    //     error: '/auth/error',
+    //     verifyRequest: '/auth/verify-request',
+    // }
     // session: {
     //     strategy: 'database'
     // }
