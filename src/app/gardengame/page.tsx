@@ -2,8 +2,10 @@
 
 import NavHeader from "@/components/navHeader";
 import RightPanel from "@/components/rightPanel";
-import { prisma } from "@/db";
 import { useState } from "react";
+import { getUserSave } from "./crud";
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 
 interface storeItemType {
@@ -22,6 +24,13 @@ interface gameSaveType {
     saveCreated: Date,
 }
 
+interface sessionType {
+    email?: string,
+    name?: string,
+    expires?: Date,
+    username?: string,
+}
+
 let testItems: storeItemType[] = [
     {itemId: 0, itemName: 'beans', itemCost: 24},
     {itemId: 1, itemName: 'apples', itemCost: 48},
@@ -34,38 +43,20 @@ let testItems: storeItemType[] = [
     {itemId: 8, itemName: 'noodles', itemCost: 14203},
 ]
 
-interface userType {
-    id: string,
-    username: string,
-}
+export default function GamePage() {
 
+    const [currentUser, setCurrentUser] = useState<sessionType | undefined>(undefined)
 
-async function getUserSave(user: userType) {
-    const userSave = await prisma.userSave.findFirst({
-        where: {
-            saveUser: {
-                id: user.id
-            }
+    const { data: session } = useSession({
+        required: true,
+        onUnauthenticated() {
+            redirect('/api/auth/signin?callbackUrl=/client')
         }
     })
 
-    if (userSave) {
-        // userSave data is available
-    } else {
-        // userSave data is not found for the given user
-    }
-
-    // close the prisma client connection when done
-    await prisma.$disconnect();
-
-    return userSave;
-
-}
-
-export default function GamePage() {
-
-    const [gameSave, setGameSave] = useState(getUserSave())
-
+    const userName = session?.user?.name;
+    const userEmail = session?.user?.email;
+    const isAuthenticated = !!session;
 
     function Store(props: {storeItems: Array<storeItemType>}) {
 
@@ -112,7 +103,6 @@ export default function GamePage() {
                 ))}
             </div>
         )
-        
 
         return (
             <div className="bg-black mr-2 mb-2 rounded h-fit">
@@ -125,9 +115,15 @@ export default function GamePage() {
     
     function GameHeader() {
         return (
-            <span className="flex flex-col justify-end bg-gray-700 text-white p-2 px-3 m-2 text-end rounded-md">
-                <p>leaves</p>
-                <p>lps</p>
+            <span className="bg-gray-700 p-2 px-3 m-2 rounded-md flex flex-row justify-evenly">
+                <div className="flex flex-col justify-end text-white w-full">
+                    <p>{userName} - {userEmail}</p>
+                    <p>{isAuthenticated ? "Authenticated" : "issue with authenticating account"}</p>
+                </div>
+                <div className="flex flex-col justify-end text-white rounded-md text-end w-full">
+                    <p>leaves</p>
+                    <p>lps</p>
+                </div>
             </span>
         )
     }
