@@ -1,6 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async(req, res) => {
+    
+    console.log("loginAction called")
+    console.log("\nloginAction method: ", req.method)
+
     if (req.method === "POST") {
 
         if (req.body.action === "createAuthorizedUser") {

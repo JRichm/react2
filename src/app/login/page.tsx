@@ -13,11 +13,52 @@ interface userInputFormType {
 }
 
 export default function LoginPage() {
+
     const [forgotPassword, setForgotPassword] = useState(false)
     const [creatingAccount, setCreatingAccount] = useState(false)
 
     const [userFormData, setUserFormData] = useState({username: "", email: "", password: "", password_conf: ""})
+    const [action, setAction] = useState("login");
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUserFormData({
+            ...userFormData,
+            [name]: value
+        })
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        if (!userFormData?.email || !userFormData?.password || !userFormData?.password_conf) {
+            setError("All Fields Are Necessary!");
+            return;
+        }
+
+        const body = JSON.stringify({ action: action, data: userFormData });
+
+        try {
+            const res = await fetch('/api/loginAction/route', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: body,
+            })
+
+            if (res.ok) {
+                // const form = e.target
+                // form.reset();
+                // console.log("res ok!")
+
+                console.log('success!!')
+
+            } else {
+                console.log("erro!!")
+            }
+        } catch (error) {
+            console.log("Request Error:", error)
+        }
+    }
     
     const { data: session, status } = useSession()
 
@@ -26,72 +67,39 @@ export default function LoginPage() {
 
         try {
             const login = async() => {
-                const res = await fetch('/api/login', {
+                console.log('fetching loginAction')
+
+                const body = JSON.stringify({
+                    action: "loginAuthorized",
+                    data: session?.user?.email
+                })
+
+                const res = await fetch('/api/loginAction', {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(session?.user)
+                    body: body
                 })
     
                 if (res.ok) {
                     console.log("res ok")
+                } else {
+                    console.log("res not ok")
                 }
             }
             
             login()
 
+
         } catch (error) {
-
+            console.error("(!) could not log in user ", error)
         }
     }
 
-    const userName = session?.user?.name;
-    const userEmail = session?.user?.email;
-    const isAuthenticated = !!session;
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setUserFormData({
-            ...userFormData,
-            [name]: value
-        })
-        console.log("userFormData")
-        console.log(userFormData)
+    const toggleAction = (newAction: string) => {
+        setAction(newAction)
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        console.log('form submitted')
-        console.log(e)
-
-        if (!userFormData?.email || !userFormData?.password || !userFormData?.password_conf) {
-            setError("All Fields Are Necessary!");
-            return;
-        }
-
-        try {
-            console.log('sending user form data')
-            console.log(userFormData)
-
-            const res = await fetch('/api/register', {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(userFormData)
-            })
-
-            if (res.ok) {
-                const form = e.target
-                form.reset();
-                console.log("res ok!")
-            } else {
-                console.log("user registration failed.")
-            }
-        } catch (error) {
-            console.log("Error during registration:", error)
-        }
-
-    }
-
-    let menu = LoginMenu();
+    var menu = LoginMenu()
 
     if (forgotPassword) {
         menu = ForgotPasswordMenu();
